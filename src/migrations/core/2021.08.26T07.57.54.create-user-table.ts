@@ -5,11 +5,23 @@ export const databasePath = __dirname;
 
 export const up: Migration = async ({ context: queryInterface }) => {
   await queryInterface.sequelize.transaction(async (transaction) => {
-    await queryInterface.createTable('table_name', {
+    await queryInterface.createTable('user', {
       id: {
         type: DataType.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+      },
+      name: {
+        type: DataType.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: DataType.STRING,
+        allowNull: false,
+      },
+      phone: {
+        type: DataType.STRING,
+        allowNull: true,
       },
       created_at: DataType.DATE,
       updated_at: DataType.DATE,
@@ -22,6 +34,6 @@ export const up: Migration = async ({ context: queryInterface }) => {
 };
 export const down: Migration = async ({ context: queryInterface }) => {
   await queryInterface.sequelize.transaction(async (transaction) => {
-    await queryInterface.dropTable('table_name');
+    await queryInterface.dropTable('user');
   });
 };

@@ -1,15 +1,15 @@
 import { IUnfilledAtt } from 'utils/base-class/base.interface';
-import { AllowNull, Column, Table } from 'sequelize-typescript';
+import { AllowNull, Column, Default, Table } from 'sequelize-typescript';
 import { BaseModel, Cache } from 'base-repo';
 
 interface IModelOptional {
   id: number;
-  isActive: boolean;
+  phone: string;
 }
 
 interface IModel extends Partial<IUnfilledAtt>, Partial<IModelOptional> {
-  username: string;
-  password: string;
+  name: string;
+  email: string;
 }
 
 type IModelCreate = Omit<IModel, 'id' | keyof IModelOptional>;
@@ -17,23 +17,22 @@ type IModelCreate = Omit<IModel, 'id' | keyof IModelOptional>;
 @Cache()
 @Table({
   tableName: 'user_login',
-  indexes: [{ fields: ['is_deleted', 'is_active', 'username'] }],
+  indexes: [{ fields: ['is_deleted', 'email'] }],
 })
-export class UserLogin
-  extends BaseModel<IModel, IModelCreate>
-  implements IModel
-{
+export class User extends BaseModel<IModel, IModelCreate> implements IModel {
+  @AllowNull(false)
   @Column
-  username: string;
-
-  @Column
-  password: string;
+  name: string;
 
   @AllowNull(false)
   @Column
-  isActive: boolean;
+  email: string;
 
-  @AllowNull(false)
+  @AllowNull(true)
+  @Column
+  phone: string;
+
+  @Default(false)
   @Column
   isDeleted: boolean;
 }
