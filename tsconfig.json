@@ -19,7 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@models/*": ["./models/*"],
-      "@utils/*": ["./common/utils/*"],
+      "@utils/*": ["./utils/*"],
       "@cms/*": ["./modules/cms/*"],
       "@app/*": ["./modules/app/*"],
       "@config/*": ["./config/*"]

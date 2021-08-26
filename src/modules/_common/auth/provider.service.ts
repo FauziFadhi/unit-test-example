@@ -2,9 +2,9 @@ import { AuthConfigService } from '@config/auth/config.provider';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { circularToJSON } from '@utils/helper';
+import { hash } from 'bcrypt';
 import * as fs from 'fs';
-import { circularToJSON } from 'utils/helper';
-import { hash, compare } from 'bcrypt';
 
 @Injectable()
 export class ProviderService {
@@ -13,6 +13,7 @@ export class ProviderService {
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
   ) {}
+
   async createToken({
     payload,
     key,
