@@ -29,8 +29,8 @@ export class ProviderService {
     issuer: string;
     expirationType: 'd' | 's' | 'm';
   }): Promise<{ expiresIn: number; token: string }> {
-    const algorithm: any = this.authConfigService.algorithm;
-    const secretOrKey = this.getKeyFile(key);
+    const { algorithm } = this.authConfigService;
+    const secret = this.getKeyFile(key);
     const payloadJson = circularToJSON(payload);
     const expirationTime = `${expiresIn}${expirationType}`;
     const sessionPayload = this.sessionPayload(audience, payload);
@@ -39,8 +39,8 @@ export class ProviderService {
     const token = this.jwtService.sign(
       { ...payloadJson, sid },
       {
-        secret: secretOrKey,
-        algorithm,
+        secret,
+        algorithm: algorithm as any,
         audience,
         expiresIn: expirationTime,
         issuer,
