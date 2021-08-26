@@ -20,7 +20,6 @@
     "paths": {
       "@models/*": ["./models/*"],
       "@utils/*": ["./common/utils/*"],
-      "@common/*": ["./common/*"],
       "@cms/*": ["./modules/cms/*"],
       "@app/*": ["./modules/app/*"],
       "@config/*": ["./config/*"]

@@ -1,18 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import {
-  SequelizeModuleOptions,
-  SequelizeOptionsFactory,
-} from '@nestjs/sequelize';
+import { Dialect } from 'sequelize';
+import * as path from 'path';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
-import * as path from 'path';
-
-import { Dialect } from 'sequelize/types';
 
 const env = dotenv.parse(fs.readFileSync('.env'));
-
-export const dbConfig = {
-  dialect: 'mysql' as Dialect,
+export default {
+  dialect: env.DB_CONNECTION as Dialect,
   logging: console.log,
   logQueryParameters: true,
   define: {
@@ -44,11 +37,3 @@ export const dbConfig = {
   models: [path.join(__dirname, '../../models/core')],
   synchronize: false,
 };
-
-@Injectable()
-export class SequelizeCoreConfigService implements SequelizeOptionsFactory {
-  constructor() { }
-  createSequelizeOptions(): SequelizeModuleOptions {
-    return dbConfig;
-  }
-}

@@ -1,12 +1,12 @@
 import { SequelizeStorage, Umzug } from 'umzug';
 
 import * as fs from 'fs';
-import { dbConfig } from './database-core.config';
 import { Sequelize } from 'sequelize-typescript';
 import { databasePath } from '../../migrations/migration-template';
+import config from './config';
 
 /** DATABASE MIGRATOR */
-const sequelize = new Sequelize(dbConfig);
+const sequelize = new Sequelize(config);
 
 export const migrator = new Umzug({
   migrations: {

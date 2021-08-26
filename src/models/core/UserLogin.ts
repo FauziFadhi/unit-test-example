@@ -14,7 +14,7 @@ interface IModel extends Partial<IUnfilledAtt>, Partial<IModelOptional> {
 
 type IModelCreate = Omit<IModel, 'id' | keyof IModelOptional>;
 
-@Cache({})
+@Cache()
 @Table({ tableName: 'user_login' })
 export class UserLogin extends BaseModel<IModel, IModelCreate> {
   @Column

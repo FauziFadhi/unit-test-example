@@ -1,4 +1,4 @@
-import { Migration } from '@config/database/migration-core.config';
+import { Migration } from '@config/database/migration.provider';
 
 export const databasePath = __dirname;
 
