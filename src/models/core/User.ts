@@ -1,6 +1,8 @@
+import { Cache, Model } from 'base-repo';
+import { AllowNull, BelongsTo, Column, Default, ForeignKey, Table } from 'sequelize-typescript';
 import { IUnfilledAtt } from 'utils/base-class/base.interface';
-import { AllowNull, Column, Default, Table } from 'sequelize-typescript';
-import { BaseModel, Cache } from 'base-repo';
+
+import { UserLogin } from './UserLogin';
 
 interface IModelOptional {
   id: number;
@@ -12,14 +14,20 @@ interface IModel extends Partial<IUnfilledAtt>, Partial<IModelOptional> {
   email: string;
 }
 
-type IModelCreate = Omit<IModel, 'id' | keyof IModelOptional>;
+export type IModelCreate = Omit<IModel, 'id'> & Partial<IModelOptional>;
 
 @Cache()
 @Table({
-  tableName: 'user_login',
+  tableName: 'user',
   indexes: [{ fields: ['is_deleted', 'email'] }],
 })
-export class User extends BaseModel<IModel, IModelCreate> implements IModel {
+export class User extends Model<IModel, IModelCreate> implements IModel {
+  @BelongsTo(() => UserLogin)
+  userLogin: UserLogin;
+
+  @ForeignKey(() => UserLogin)
+  userLoginId: number;
+
   @AllowNull(false)
   @Column
   name: string;

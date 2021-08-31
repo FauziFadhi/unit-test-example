@@ -1,13 +1,9 @@
-import { BaseResource, Resource } from '../base-class/base.resource';
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  NestInterceptor,
-} from '@nestjs/common';
-import { circularToJSON } from '../helper';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { BaseResource, Resource } from '../base-class/base.resource';
+import { circularToJSON } from '../helper';
 
 type Meta = {
   currentRecordCount: number;
@@ -20,8 +16,7 @@ type Meta = {
 
 @Injectable()
 export class ResponsePaginationInterceptor<T>
-  implements NestInterceptor<T, any>
-{
+implements NestInterceptor<T, any> {
   serializeName: Resource;
 
   offset;
@@ -48,6 +43,7 @@ export class ResponsePaginationInterceptor<T>
   constructor(serializeName: Resource) {
     this.serializeName = serializeName;
   }
+
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest();
     this.query = request.query;
@@ -56,7 +52,9 @@ export class ResponsePaginationInterceptor<T>
       map((resp) => {
         const { count, rows, ...additionalMeta } = circularToJSON(resp);
 
+        // eslint-disable-next-line no-underscore-dangle
         this.queryString = request._parsedUrl.query || '';
+        // eslint-disable-next-line no-underscore-dangle
         this.pathname = request._parsedUrl.pathname;
 
         // make to json serialize
@@ -76,9 +74,7 @@ export class ResponsePaginationInterceptor<T>
   private links({ currentPage, totalPage }: Meta) {
     // LINKS
 
-    const self = () => {
-      return this.linkQueries(currentPage);
-    };
+    const self = () => this.linkQueries(currentPage);
     const prev = () => {
       const prevPage = +currentPage - 1;
       if (prevPage < 1) return undefined;
@@ -122,8 +118,7 @@ export class ResponsePaginationInterceptor<T>
    */
   private meta(count, rows: any[], additionalMeta: any): Meta {
     // META
-    const total: number =
-      typeof count === 'object' ? count?.length || 0 : count;
+    const total: number = typeof count === 'object' ? count?.length || 0 : count;
 
     const totalPage = Math.ceil(total / (+this.query.size || undefined));
 
@@ -138,8 +133,8 @@ export class ResponsePaginationInterceptor<T>
         perPage: +this.query.size || 0,
         startOf: (count && offset + 1) || 0,
         ...additionalMeta,
-      }) ||
-      undefined
+      })
+      || undefined
     );
   }
 }

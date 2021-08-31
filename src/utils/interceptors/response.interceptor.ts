@@ -1,22 +1,19 @@
-import { BaseResource, Resource } from '../base-class/base.resource';
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  NestInterceptor,
-} from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { BaseResource, Resource } from '../base-class/base.resource';
 import { ResponsePaginationInterceptor } from './list-response.interceptor';
 
 @Injectable()
 export class ResponseInterceptor<T> implements NestInterceptor<T, any> {
   serializeName: Resource;
+
   constructor(serializeName: Resource) {
     this.serializeName = serializeName;
   }
+
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const reflector = new Reflector();
 
@@ -32,18 +29,20 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, any> {
     if (
       classInterceptors?.some(
         (interceptor) => interceptor instanceof ResponseInterceptor,
-      ) &&
-      handlerInterceptors?.some(
+      )
+      && handlerInterceptors?.some(
         (interceptor) => interceptor instanceof ResponsePaginationInterceptor,
       )
-    )
-      return next.handle();
+    ) { return next.handle(); }
 
     return next.handle().pipe(
-      map((data) => {
+      map((data: Record<string, unknown>) => {
         const meta = data?.meta;
 
-        if (meta) delete data.meta;
+        if (meta) {
+          const obj = data;
+          delete obj.meta;
+        }
 
         return new BaseResource(this.serializeName, data);
       }),

@@ -1,11 +1,10 @@
-import { Dialect } from 'sequelize';
-import * as path from 'path';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
+import * as path from 'path';
 
 const env = dotenv.parse(fs.readFileSync('.env'));
 export default {
-  dialect: env.DB_CONNECTION as Dialect,
+  dialect: 'mysql',
   logging: console.log,
   logQueryParameters: true,
   define: {

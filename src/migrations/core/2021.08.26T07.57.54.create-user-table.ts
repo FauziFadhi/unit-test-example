@@ -11,6 +11,13 @@ export const up: Migration = async ({ context: queryInterface }) => {
         primaryKey: true,
         autoIncrement: true,
       },
+      user_login_id: {
+        type: DataType.INTEGER,
+        references: {
+          key: 'id',
+          model: 'user_login',
+        },
+      },
       name: {
         type: DataType.STRING,
         allowNull: false,

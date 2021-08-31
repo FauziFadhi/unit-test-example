@@ -1,13 +1,7 @@
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
+import * as JSONAPISerializer from 'json-api-serializer';
 
 // tslint:disable-next-line:variable-name
-import JSONAPISerializer from 'json-api-serializer';
 // tslint:disable-next-line:variable-name
 const Serializer = new JSONAPISerializer();
 
@@ -22,22 +16,21 @@ export class AllExceptionsFilter implements ExceptionFilter {
     // const isAcceptedApi = request.url.includes('api/');
 
     // const user = isAcceptedApi ? request.user : 'ATTACK';
-    const url = request.url;
+    const { url } = request;
     // const headers = request.headers;
 
-    const status =
-      exception instanceof HttpException
-        ? +exception.getStatus()
-        : HttpStatus.INTERNAL_SERVER_ERROR;
+    const status = exception instanceof HttpException
+      ? +exception.getStatus()
+      : HttpStatus.INTERNAL_SERVER_ERROR;
     const stack = !exception.stack ? null : exception.stack;
 
     console.warn('\x1b[31m', stack, 'stack');
 
     const errorCode = (exception as any)?.response?.error || undefined;
 
-    const errorMessage: any =
-      (exception as any)?.response?.message || exception?.message || exception;
-    console.log(errorMessage);
+    const errorMessage: any = (exception as any)?.response?.message
+    || exception?.message
+    || exception;
 
     let errorDefault: any = {
       statusCode: status,
@@ -47,14 +40,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
       message: errorMessage,
     };
 
-    if (typeof errorMessage == 'object' && errorMessage.length) {
-      const error = [];
-      for (const message of errorMessage) {
-        error.push({
-          ...errorDefault,
-          message,
-        });
-      }
+    if (typeof errorMessage === 'object' && errorMessage.length) {
+      const error = errorMessage.map((message) => ({
+        ...errorDefault,
+        message,
+      }));
 
       errorDefault = error;
     }

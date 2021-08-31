@@ -7,7 +7,6 @@ import { AppService } from './app.service';
 import { AppConfigModule } from './config/app/config.module';
 import { CacheConfigModule } from './config/cache/config.module';
 import { DBConfigModule } from './config/database/config.module';
-import { ProviderService } from './modules/_common/auth/provider.service';
 import { CommonModule } from './modules/_common/common.module';
 import { AppsModule } from './modules/apps/apps.module';
 import { CmsModule } from './modules/cms/cms.module';
@@ -24,6 +23,6 @@ import { CmsModule } from './modules/cms/cms.module';
     AuthConfigModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ProviderService],
+  providers: [AppService],
 })
 export class AppModule {}
