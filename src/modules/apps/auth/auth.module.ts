@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AuthCommonModule } from 'modules/_common/auth/auth.module';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { AuthJwtStrategy } from './strategy/auth.strategy';
 
 @Module({
-  imports: [AuthCommonModule],
-  providers: [AuthService],
+  imports: [],
+  providers: [AuthService, AuthJwtStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}

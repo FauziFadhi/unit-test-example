@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 
 import { AuthCommonModule } from './auth/auth.module';
 
+@Global()
 @Module({
   imports: [AuthCommonModule],
-  exports: [],
+  exports: [AuthCommonModule],
 })
 export class CommonModule {}

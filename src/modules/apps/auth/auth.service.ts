@@ -24,7 +24,7 @@ export class AuthService {
   async login({ username, password }: ILogin): Promise<{ expiresIn: number, token: string }> {
     const userLogin = await UserLogin
       .scopes('active')
-      .findOne({
+      .findOneCache({
         where: {
           username,
         },

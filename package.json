@@ -28,7 +28,7 @@
     "@nestjs/passport": "^8.0.1",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/sequelize": "^8.0.0",
-    "base-repo": "^2.1.2",
+    "base-repo": "^2.1.5",
     "bcrypt": "^5.0.1",
     "cache-manager": "^3.4.4",
     "cache-manager-redis-store": "^2.0.0",
@@ -43,7 +43,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.3.0",
-    "sequelize": "^6.6.2",
+    "sequelize": "^6.6.5",
     "sequelize-typescript": "^2.1.0",
     "source-map-support": "^0.5.19",
     "umzug": "^3.0.0-beta.16"

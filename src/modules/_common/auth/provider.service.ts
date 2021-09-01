@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import CONST from '@utils/constant';
 import { circularToJSON } from '@utils/helper';
 import { hash } from 'bcrypt';
+import * as crypto from 'crypto';
 import * as fs from 'fs';
 
 @Injectable()
@@ -24,23 +25,31 @@ export class AuthProvider {
     payload,
     key,
     audience,
-    expiresIn = this.authConfigService.defaultExpireTime,
-    issuer = this.configService.get('app.name'),
-    expirationType = 's',
   }: {
     payload: { userId: number; userLoginId: number; username: string } & any;
     key: string;
     audience: string;
+  },
+  {
+    expiresIn,
+    issuer,
+    expirationType,
+  }
+  : {
     expiresIn?: number;
     issuer?: string;
     expirationType?: 'd' | 's' | 'm';
+  } = {
+    expiresIn: this.authConfigService.defaultExpireTime,
+    issuer: this.configService.get('app.name'),
+    expirationType: 's',
   }): Promise<{ expiresIn: number; token: string }> {
     const { algorithm } = this.authConfigService;
     const secret = this.getKeyFile(key);
     const payloadJson = circularToJSON(payload);
     const expirationTime = `${expiresIn}${expirationType}`;
     const sessionPayload = this.sessionPayload(audience, payload);
-    const sid = hash(sessionPayload, 8);
+    const sid = await hash(sessionPayload, 8);
 
     const token = this.jwtService.sign(
       { ...payloadJson, sid },
@@ -61,9 +70,9 @@ export class AuthProvider {
    * @param text
    * @returns
    */
-  async encrypt(text: string): Promise<string> {
+  encrypt(text: string): string {
     try {
-      const crypto = await import('crypto');
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const constAuth = CONST.auth;
       const key = crypto.scryptSync(
         constAuth.PAYLOAD_PASSWORD,
