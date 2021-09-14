@@ -4,4 +4,5 @@ export default {
   PAYLOAD_SALT: 'WV32JMr1kU',
   PAYLOAD_SALT_ROUND: 24,
   AUDIENCE_APP: 'project-basecode',
+  PASSWORD_SALT_ROUND: 10,
 };

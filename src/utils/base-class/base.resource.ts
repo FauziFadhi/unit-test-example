@@ -1,6 +1,6 @@
-import JsonAPISerializer from 'json-api-serializer';
+import * as JsonAPISerializer from 'json-api-serializer';
 
-export const resourceNames = [] as const;
+export const resourceNames = ['users'] as const;
 
 export type Resource = typeof resourceNames[number];
 

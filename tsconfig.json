@@ -21,7 +21,8 @@
       "@models/*": ["./models/*"],
       "@utils/*": ["./utils/*"],
       "@cms/*": ["./modules/cms/*"],
-      "@app/*": ["./modules/app/*"],
+      "@apps/*": ["./modules/apps/*"],
+      "@_common/*": ["./modules/_common/*"],
       "@config/*": ["./config/*"]
     }
   }
