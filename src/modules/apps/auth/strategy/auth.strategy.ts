@@ -30,6 +30,7 @@ export class AuthJwtStrategy extends PassportStrategy(Strategy, 'auth') {
   async validate(payload: ILoginPayload) {
     const userLogin = await UserLogin.scopes('active')
       .findOneCache({
+        ttl: 1000,
         attributes: ['id', 'username'],
         where: {
           username: payload.username,
