@@ -1,4 +1,6 @@
-import { CACHE_MANAGER, CacheModule, Inject, Module } from '@nestjs/common';
+import {
+  CACHE_MANAGER, CacheModule, Inject, Module,
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { RepositoryModule } from 'base-repo';
 import { Store } from 'cache-manager';
@@ -25,7 +27,7 @@ import schema from './schema';
       callbackInvalidate: ({ key }) => CacheConfigModule.store.del(key),
       // DEFINE HOW TO SET CACHE FROM GIVEN KEY VALUE AND TTL
       callbackSet: async ({ key, value, ttl }) => CacheConfigModule.store.set(key, value, { ttl }),
-      callbackGetKey: async ({ keyPattern }) => CacheConfigModule.store.keys(keyPattern),
+      callbackGetKey: async ({ keyPattern }) => CacheConfigModule.store.keys(`${process.env.CACHE_PREFIX}${keyPattern}`),
     }),
   ],
 })
