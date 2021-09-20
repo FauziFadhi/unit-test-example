@@ -1,10 +1,10 @@
 import { Cache, Model } from 'base-repo';
-import {
-  AllowNull, BelongsTo, Column, Default, ForeignKey, Table,
-} from 'sequelize-typescript';
+import { AllowNull, BelongsTo, BelongsToMany, Column, Default, ForeignKey, Table } from 'sequelize-typescript';
 import { IUnfilledAtt } from 'utils/base-class/base.interface';
 
+import { Role } from './Role';
 import { UserLogin } from './UserLogin';
+import { UserRole } from './UserRole';
 
 interface IModelOptional {
   id: number;
@@ -46,4 +46,7 @@ export class User extends Model<IModel, IModelCreate> implements IModel {
   @Default(false)
   @Column
   isDeleted: boolean;
+
+  @BelongsToMany(() => Role, () => UserRole)
+  roles: Role[];
 }

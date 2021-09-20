@@ -1,10 +1,8 @@
 import { Cache, Model } from 'base-repo';
-import {
-  AllowNull, Column, Default, HasOne, Scopes, Table,
-} from 'sequelize-typescript';
+import { AllowNull, Column, Default, HasOne, Scopes, Table } from 'sequelize-typescript';
 import { IUnfilledAtt } from 'utils/base-class/base.interface';
 
-import { IModelCreate as IModelCreateUser, User } from './User';
+import { User } from './User';
 
 interface IModelOptional {
   id: number;
@@ -17,7 +15,7 @@ interface IModel extends Partial<IUnfilledAtt>, Partial<IModelOptional> {
 }
 
 export interface IModelCreate extends Omit<IModel, 'id'>, Partial<IModelOptional> {
-  user?: IModelCreateUser;
+  // user?: IModelCreateUser;
 }
 
 @Scopes(() => ({
