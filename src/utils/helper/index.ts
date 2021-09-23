@@ -1,4 +1,4 @@
-import { ClassTransformOptions, plainToClass } from 'class-transformer';
+import { ClassTransformOptions, plainToClass, Transform } from 'class-transformer';
 
 export const circularToJSON = (circular: unknown) => JSON.parse(JSON.stringify(circular));
 
@@ -10,8 +10,11 @@ export function generateViewModel(...args: any[]) {
       excludeExtraneousValues: true,
       exposeUnsetFields: false,
       enableImplicitConversion: true,
-      exposeDefaultValues: true,
       ...args[2],
     });
   return result as unknown;
+}
+
+export function Default(defaultValue: unknown): PropertyDecorator {
+  return Transform((obj: any) => obj?.value ?? defaultValue);
 }

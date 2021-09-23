@@ -1,3 +1,4 @@
+import { Default } from '@utils/helper';
 import { Expose } from 'class-transformer';
 
 export class UserViewModel {
@@ -10,6 +11,11 @@ export class UserViewModel {
   @Expose()
   email: string;
 
+  @Default('F')
   @Expose()
-  nationality = 'ID';
+  gender: string;
+
+  @Default('ID')
+  @Expose()
+  nationality: string;
 }
