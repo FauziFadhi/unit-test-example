@@ -1,8 +1,10 @@
 ## Requirement
 - NodeJs >= 14 LTS
-- NestJs 8
+- NestJs [V8](https://nestjs.com/)
 - ORM [Sequelize-Typescript v2.1.0](https://www.npmjs.com/package/sequelize-typescript)
 - Cache Management [base-repo](https://github.com/FauziFadhi/base-repo) (extending sequelize function with cache feature)
+- Base ORM [Sequelize v6](https://sequelize.org/master/)
+- Database Migration [Umzug](https://github.com/sequelize/umzug)
 
 # How To Install
 
