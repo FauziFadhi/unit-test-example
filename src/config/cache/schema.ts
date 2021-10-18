@@ -1,4 +1,5 @@
 import * as Joi from 'joi';
+
 export default Joi.object({
   CACHE_HOST: Joi.string().required(),
   CACHE_PORT: Joi.number().required().default(6379),
