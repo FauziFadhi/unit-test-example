@@ -30,7 +30,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/sequelize": "^8.0.0",
     "aws-sdk": "^2.1008.0",
-    "base-repo": "^2.2.1",
+    "base-repo": "^2.2.2",
     "bcrypt": "^5.0.1",
     "cache-manager": "^3.4.4",
     "cache-manager-redis-store": "^2.0.0",
