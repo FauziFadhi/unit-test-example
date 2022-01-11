@@ -4,7 +4,7 @@ import { UserLogin } from '@models/core/UserLogin';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
-import CONST from '@utils/constant';
+import * as CONST from '@utils/constant';
 import * as fs from 'fs';
 import { AuthProvider } from 'modules/_common/auth/provider.service';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -26,7 +26,7 @@ export class AuthJwtStrategy extends PassportStrategy(Strategy, 'auth') {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
       algorithms: authConfig.algorithm,
-      audience: authProvider.encrypt(CONST.auth.AUDIENCE_APP),
+      audience: authProvider.encrypt(CONST.AUTH.AUDIENCE_APP),
       issuer: configService.get('app.name'),
       secretOrKey: fs.readFileSync(`${authConfig.keyFolderPath}${authConfig.public}`),
     });

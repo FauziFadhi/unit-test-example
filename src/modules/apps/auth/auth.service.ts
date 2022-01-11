@@ -1,7 +1,7 @@
 import { AuthConfigService } from '@config/auth/config.provider';
 import { UserLogin } from '@models/core/UserLogin';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import CONST from '@utils/constant';
+import { AUTH } from '@utils/constant';
 import { compare } from 'bcrypt';
 import { AuthProvider } from 'modules/_common/auth/provider.service';
 
@@ -46,7 +46,7 @@ export class AuthService {
       {
         payload: loginPayload,
         key: this.authConfig.secret,
-        audience: CONST.auth.AUDIENCE_APP,
+        audience: AUTH.AUDIENCE_APP,
       },
     );
   }
