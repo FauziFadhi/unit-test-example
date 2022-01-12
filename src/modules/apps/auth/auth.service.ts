@@ -25,7 +25,7 @@ export class AuthService {
     const userLogin = await UserLogin
       .scopes('active')
       .findOneCache({
-        ttl: 1000,
+        ttl: 1,
         where: {
           username,
         },

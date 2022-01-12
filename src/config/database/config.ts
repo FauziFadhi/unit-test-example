@@ -5,7 +5,9 @@ import * as path from 'path';
 const env = dotenv.parse(fs.readFileSync('.env'));
 export default {
   dialect: 'mysql',
-  logging: console.log,
+  logging: (log: any): void => {
+    console.log('\x1b[33m', log, '\x1b[0m', '\n');
+  },
   logQueryParameters: true,
   define: {
     underscored: true,

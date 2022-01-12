@@ -1,5 +1,5 @@
 import {
-  CACHE_MANAGER, CacheModule, Inject, Module, Global,
+  CACHE_MANAGER, CacheModule, Inject, Module,
 } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { RepositoryModule } from 'base-repo';
