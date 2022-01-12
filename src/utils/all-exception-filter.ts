@@ -21,7 +21,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const { url } = request;
     // const headers = request.headers;
 
-    const status = exception instanceof HttpException || +exception.getStatus()
+    const status = exception instanceof HttpException || +exception?.getStatus?.()
       ? +exception.getStatus()
       : HttpStatus.INTERNAL_SERVER_ERROR;
     const stack = !exception.stack ? null : exception.stack;

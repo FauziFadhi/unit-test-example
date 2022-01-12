@@ -9,9 +9,10 @@ import * as redisStore from 'cache-manager-redis-store';
 @Injectable()
 export class CacheConfigProvider implements CacheOptionsFactory {
   constructor(private configService: ConfigService) { }
+
   createCacheOptions(): CacheModuleOptions {
     return {
-      // ttl: this.configService.get<number>('CACHE_TTL'),
+      ttl: this.configService.get<number>('CACHE_TTL'),
       store: redisStore,
       host: this.configService.get<string>('CACHE_HOST'),
       port: this.configService.get<number>('CACHE_PORT'),
