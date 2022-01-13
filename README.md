@@ -44,12 +44,14 @@ from that library because the return type is `Observable` and from `rxjs` `.toPr
 please use `LastValueFrom` or `firstValueFrom`.
 ## Example
 please use
-
-`const resp = await lastValueFrom(this.httpService.post())`
-
+```
+const resp = await lastValueFrom(this.httpService.post())
+```
 instead of
+```
+const resp = await this.httpService.post().toPromise()
 
-`const resp = await this.httpService.post().toPromise()`
+```
 
 # Custom Cache
 if you want to use custom cache with custom key, you can follow this [instruction](https://docs.nestjs.com/techniques/caching#interacting-with-the-cache-store)
