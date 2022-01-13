@@ -2,7 +2,7 @@ import { AuthConfigService } from '@config/auth/config.provider';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import CONST from '@utils/constant';
+import { AUTH } from '@utils/constant';
 import { circularToJSON } from '@utils/helper';
 import { hash } from 'bcrypt';
 import * as crypto from 'crypto';
@@ -73,15 +73,14 @@ export class AuthProvider {
   encrypt(text: string): string {
     try {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const constAuth = CONST.auth;
       const key = crypto.scryptSync(
-        constAuth.PAYLOAD_PASSWORD,
-        constAuth.PAYLOAD_SALT,
-        constAuth.PAYLOAD_SALT_ROUND,
+        AUTH.PAYLOAD_PASSWORD,
+        AUTH.PAYLOAD_SALT,
+        AUTH.PAYLOAD_SALT_ROUND,
       );
 
       const iv = Buffer.alloc(16, 0); // Initialization vector.
-      const cipher = crypto.createCipheriv(constAuth.PAYLOAD_ALGORITHM, key, iv);
+      const cipher = crypto.createCipheriv(AUTH.PAYLOAD_ALGORITHM, key, iv);
 
       return cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
     } catch (e) {

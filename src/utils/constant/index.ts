@@ -1,7 +1,1 @@
-import auth from './auth.constant';
-
-const CONST = {
-  auth,
-};
-
-export default CONST;
+export { default as AUTH } from './auth.constant';

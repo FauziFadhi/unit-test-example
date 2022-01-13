@@ -1,4 +1,6 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus,
+} from '@nestjs/common';
 import * as JSONAPISerializer from 'json-api-serializer';
 
 // tslint:disable-next-line:variable-name
@@ -19,13 +21,12 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const { url } = request;
     // const headers = request.headers;
 
-    const status = exception instanceof HttpException
+    const status = exception instanceof HttpException || +exception?.getStatus?.()
       ? +exception.getStatus()
       : HttpStatus.INTERNAL_SERVER_ERROR;
     const stack = !exception.stack ? null : exception.stack;
 
-    console.warn('\x1b[31m', stack, 'stack');
-
+    console.log('\x1b[36m', stack, '\x1b[0m');
     const errorCode = (exception as any)?.response?.error || undefined;
 
     const errorMessage: any = (exception as any)?.response?.message

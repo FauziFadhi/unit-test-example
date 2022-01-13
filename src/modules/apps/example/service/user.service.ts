@@ -1,10 +1,9 @@
 import { User } from '@models/core/User';
 import { UserLogin } from '@models/core/UserLogin';
 import { Injectable } from '@nestjs/common';
-import CONST from '@utils/constant';
+import { AUTH } from '@utils/constant';
 import { generateViewModel } from '@utils/helper';
 import { hash } from 'bcrypt';
-import { AuthProvider } from 'modules/_common/auth/provider.service';
 import { Transaction } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { ICreateUserAccount } from '../interface/user.interface';
@@ -20,7 +19,7 @@ export class UserService {
 
   async createUser(dto: ICreateUserAccount, transaction1?: Transaction) {
     return this.sequelize.transaction({ transaction: transaction1 }, async (transaction) => {
-      const password = await hash(dto.password, CONST.auth.PAYLOAD_SALT_ROUND);
+      const password = await hash(dto.password, AUTH.PAYLOAD_ALGORITHM);
       await UserLogin.create({ ...dto, password }, { transaction });
 
       const user = await User.create(dto, { transaction });

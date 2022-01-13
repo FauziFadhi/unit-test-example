@@ -20,7 +20,7 @@ import schema from './schema';
       useClass: CacheConfigProvider,
     }),
     RepositoryModule.forRoot({
-      defaultTTL: 1000, // DEFINE TTL FOR ALL PROJECT millisecond
+      defaultTTL: 5, // DEFINE TTL FOR ALL PROJECT seconds
       // DEFINE HOW TO GET CACHE FROM GIVEN KEY
       callbackGet: async ({ key }) => CacheConfigModule.store.get(key),
       // DEFINE HOW TO INVALIDATE CACHE FROM GIVEN KEY
@@ -30,6 +30,7 @@ import schema from './schema';
       callbackGetKey: async ({ keyPattern }) => CacheConfigModule.store.keys(`${process.env.CACHE_PREFIX}${keyPattern}`),
     }),
   ],
+  exports: [CacheModule],
 })
 export class CacheConfigModule {
   static store: Store;
