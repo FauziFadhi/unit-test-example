@@ -1,5 +1,6 @@
 ## Requirement
-- NodeJs >= 16 LTS
+- NodeJs >= 16 LTS 
+- [Typescript 4.5](https://www.typescriptlang.org/docs/)
 - NestJs [V8](https://nestjs.com/)
 - ORM [Sequelize-Typescript v2.1.2](https://www.npmjs.com/package/sequelize-typescript)
 - Cache Management [base-repo](https://github.com/FauziFadhi/base-repo) (extending sequelize function with cache feature)
