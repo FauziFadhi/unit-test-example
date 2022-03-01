@@ -25,15 +25,15 @@ export class AllExceptionsFilter implements ExceptionFilter {
       ? +exception.getStatus()
       : HttpStatus.INTERNAL_SERVER_ERROR;
     const stack = !exception.stack ? null : exception.stack;
-
+    const errorResponse = (exception)?.response;
     console.log('\x1b[36m', stack, '\x1b[0m');
-    const errorCode = (exception as any)?.response?.error || undefined;
+    const errorCode = errorResponse?.error || errorResponse?.code || undefined;
 
-    const errorMessage: any = (exception as any)?.response?.message
+    const errorMessage = errorResponse?.message
     || exception?.message
     || exception;
 
-    let errorDefault: any = {
+    let errorDefault = {
       statusCode: status,
       timestamp: new Date().toISOString(),
       path: url,
