@@ -1,9 +1,12 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+import { AppConfigModule } from '@config/app/config.module';
+import {
+  CallHandler, ExecutionContext, Injectable, NestInterceptor,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BaseResource, Resource } from '../base-class/base.resource';
+import { Resource } from '../base-class/base.resource';
 import { ResponsePaginationInterceptor } from './list-response.interceptor';
 
 @Injectable()
@@ -44,7 +47,8 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, any> {
           delete obj.meta;
         }
 
-        return new BaseResource(this.serializeName, data);
+        const baseResource = AppConfigModule.BaseResouce;
+        return baseResource.serialize(this.serializeName, data);
       }),
     );
   }

@@ -1,8 +1,11 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+import { AppConfigModule } from '@config/app/config.module';
+import {
+  CallHandler, ExecutionContext, Injectable, NestInterceptor,
+} from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BaseResource, Resource } from '../base-class/base.resource';
+import { Resource } from '../base-class/base.resource';
 import { circularToJSON } from '../helper';
 
 type Meta = {
@@ -58,7 +61,8 @@ implements NestInterceptor<T, any> {
         this.pathname = request._parsedUrl.pathname;
 
         // make to json serialize
-        const resource = new BaseResource(this.serializeName, rows);
+        const baseResource = AppConfigModule.BaseResouce;
+        const resource = baseResource.serialize(this.serializeName, rows);
 
         const meta = this.meta(count, rows, additionalMeta);
 

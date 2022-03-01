@@ -12,7 +12,7 @@ export class BaseResource {
    * @param resourceName
    * @param data
    */
-  constructor(resourceName: Resource, data: any) {
+  constructor() {
     /**
      * @see {resource}
      * register all defined resource
@@ -22,7 +22,9 @@ export class BaseResource {
         id: 'id',
       });
     });
+  }
 
+  serialize(resourceName: Resource, data: any) {
     return this.serializer.serialize(resourceName, data);
   }
 }
