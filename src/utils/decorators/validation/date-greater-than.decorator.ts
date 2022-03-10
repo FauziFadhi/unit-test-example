@@ -8,7 +8,7 @@ export function IsGreaterThan(
   property: string,
   validationOptions?: ValidationOptions,
 ) {
-  return function (object: unknown, propertyName: string) {
+  return function (object: any, propertyName: string) {
     registerDecorator({
       name: 'IsGreaterThan',
       target: object.constructor,
@@ -21,8 +21,8 @@ export function IsGreaterThan(
           const relatedValue = args.object[relatedPropertyName];
           return value > relatedValue;
         },
-        defaultMessage({ property, constraints }) {
-          return `${property} must be greater than ${constraints[0]}`;
+        defaultMessage(args) {
+          return `${args?.property} must be greater than ${args?.constraints[0]}`;
         },
       },
     });

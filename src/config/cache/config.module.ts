@@ -24,10 +24,10 @@ import schema from './schema';
       // DEFINE HOW TO GET CACHE FROM GIVEN KEY
       callbackGet: async ({ key }) => CacheConfigModule.store.get(key),
       // DEFINE HOW TO INVALIDATE CACHE FROM GIVEN KEY
-      callbackInvalidate: ({ key }) => CacheConfigModule.store.del(key),
+      callbackInvalidate: ({ key }) => (CacheConfigModule?.store?.del?.(key) || null),
       // DEFINE HOW TO SET CACHE FROM GIVEN KEY VALUE AND TTL
       callbackSet: async ({ key, value, ttl }) => CacheConfigModule.store.set(key, value, { ttl }),
-      callbackGetKey: async ({ keyPattern }) => CacheConfigModule.store.keys(`${process.env.CACHE_PREFIX}${keyPattern}`),
+      callbackGetKey: async ({ keyPattern }) => CacheConfigModule.store.keys?.(`${process.env.CACHE_PREFIX}${keyPattern}`) || [],
     }),
   ],
   exports: [CacheModule],

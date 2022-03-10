@@ -7,6 +7,7 @@ import { circularToJSON } from '@utils/helper';
 import { hash } from 'bcrypt';
 import * as crypto from 'crypto';
 import * as fs from 'fs';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class AuthProvider {
@@ -21,36 +22,38 @@ export class AuthProvider {
    * @param param0
    * @returns Promise<{ expiresIn: number; token: string }>
    */
-  async createToken({
-    payload,
-    key,
-    audience,
-  }: {
-    payload: { userId: number; userLoginId: number; username: string } & any;
-    key: string;
-    audience: string;
-  },
-  {
-    expiresIn,
-    issuer,
-    expirationType,
-  }
-  : {
-    expiresIn?: number;
-    issuer?: string;
-    expirationType?: 'd' | 's' | 'm';
-  } = {
-    expiresIn: this.authConfigService.defaultExpireTime,
-    issuer: this.configService.get('app.name'),
-    expirationType: 's',
-  }): Promise<{ expiresIn: number; token: string }> {
+  async createToken(
+    {
+      payload,
+      key,
+      audience,
+    }: {
+      payload: { userId: number; userLoginId: number; username: string } & any;
+      key: string;
+      audience: string;
+    },
+    {
+      expiresIn,
+      issuer,
+      expirationType,
+    }
+    : {
+      expiresIn?: number;
+      issuer?: string;
+      expirationType?: 'day' | 'second' | 'minute';
+    } = {
+      expiresIn: this.authConfigService.defaultExpireTime,
+      issuer: this.configService.get('app.name'),
+      expirationType: 'second',
+    },
+  ): Promise<{ expiresIn: number; token: string }> {
     const { algorithm } = this.authConfigService;
     const secret = this.getKeyFile(key);
     const payloadJson = circularToJSON(payload);
     const expirationTime = `${expiresIn}${expirationType}`;
     const sessionPayload = this.sessionPayload(audience, payload);
     const sid = await hash(sessionPayload, 8);
-
+    const expiredEpoch = DateTime.now().plus({ [expirationType || 'second']: expiresIn }).toUnixInteger();
     const token = this.jwtService.sign(
       { ...payloadJson, sid },
       {
@@ -62,7 +65,7 @@ export class AuthProvider {
       },
     );
 
-    return { expiresIn, token };
+    return { expiresIn: expiredEpoch, token };
   }
 
   /**

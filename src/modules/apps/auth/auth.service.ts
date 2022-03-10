@@ -45,7 +45,7 @@ export class AuthService {
     return this.commonAuthProvider.createToken(
       {
         payload: loginPayload,
-        key: this.authConfig.secret,
+        key: this.authConfig?.secret || '',
         audience: AUTH.AUDIENCE_APP,
       },
     );

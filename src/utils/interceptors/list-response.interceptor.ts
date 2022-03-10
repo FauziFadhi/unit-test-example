@@ -34,14 +34,17 @@ implements NestInterceptor<T, any> {
   /**
    * endpoint url
    */
-  pathname = null;
+  pathname = '';
 
   /**
    * @property
    * @type {Object}
    * all query inserted when access endpoint
    */
-  query = null;
+  query = {
+    page: undefined,
+    size: undefined,
+  };
 
   constructor(serializeName: Resource) {
     this.serializeName = serializeName;
@@ -122,19 +125,20 @@ implements NestInterceptor<T, any> {
    */
   private meta(count, rows: any[], additionalMeta: any): Meta {
     // META
+    const { size, page } = this.query;
     const total: number = typeof count === 'object' ? count?.length || 0 : count;
 
-    const totalPage = Math.ceil(total / (+this.query.size || undefined));
+    const totalPage = size ? Math.ceil(total / size) : 0;
 
-    const offset = this.query.size * this.query.page - +this.query.size || 0;
+    const offset = (size && page) ? size * page - +size : 0;
 
     return (
       (total >= 0 && {
         totalRecordCount: total,
         currentRecordCount: rows?.length || 0,
         totalPage: totalPage || 0,
-        currentPage: +additionalMeta?.meta?.page || +this.query.page || 1,
-        perPage: +this.query.size || 0,
+        currentPage: +(additionalMeta?.meta?.page || page || 1),
+        perPage: +(size || 0),
         startOf: (count && offset + 1) || 0,
         ...additionalMeta,
       })

@@ -21,12 +21,14 @@ export class ValidationPipe implements PipeTransform<any> {
     if (errors.length > 0) {
       const mappedErrors = await Promise.all(
         errors.map(async (error) => {
-          if (error.children.length == 0)
-            return Object.values(error.constraints);
+          if (error?.children?.length === 0 && error?.constraints) {
+            return Object.values(error?.constraints);
+          }
 
-          if (error.children[0]) {
+          if (error?.children?.[0]) {
             return this.getChildrenConstraint(error.children[0]);
           }
+          return null;
         }),
       );
       throw new UnprocessableEntityException(

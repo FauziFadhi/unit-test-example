@@ -5,23 +5,23 @@ import { ConfigService } from '@nestjs/config';
 export class AuthConfigService {
   constructor(private readonly configService: ConfigService) {}
 
-  get algorithm(): string {
+  get algorithm(): string | undefined {
     return this.configService.get<string>('auth.JWT_ALGORITHM');
   }
 
-  get keyFolderPath(): string {
+  get keyFolderPath(): string | undefined {
     return this.configService.get<string>('auth.JWT_KEY_FOLDER');
   }
 
-  get defaultExpireTime(): number {
+  get defaultExpireTime(): number | undefined {
     return this.configService.get<number>('auth.JWT_DEFAULT_EXPIRE_TIME');
   }
 
-  get secret(): string {
+  get secret(): string | undefined {
     return this.configService.get<string>('auth.JWT_SECRET_KEY');
   }
 
-  get public(): string {
+  get public(): string | undefined {
     return this.configService.get<string>('auth.JWT_PUBLIC_KEY');
   }
 }
