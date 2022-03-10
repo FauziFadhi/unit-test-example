@@ -9,7 +9,7 @@
     "node": "^16.13.1"
   },
   "scripts": {
-    "migrate": "cross-env ts-node -r tsconfig-paths/register",
+    "migrate": "ts-node -r tsconfig-paths/register",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
