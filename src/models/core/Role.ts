@@ -1,28 +1,27 @@
 import { Cache, Model } from 'base-repo';
-import { AllowNull, Column, Default, Table } from 'sequelize-typescript';
+import {
+  AllowNull, Column, Table,
+} from 'sequelize-typescript';
 import { IUnfilledAtt } from 'utils/base-class/base.interface';
 
-interface IModelOptional {
+interface IModelOptional extends IUnfilledAtt {
   id: number;
 }
 
-interface IModel extends Partial<IUnfilledAtt>, Partial<IModelOptional> {
+interface IModel extends Partial<IModelOptional> {
   name: string;
 }
 
-export type IModelCreate = Omit<IModel, 'id'> & Partial<IModelOptional>;
+export type IModelCreate = Omit<IModel, 'id'>;
 
 @Cache()
 @Table({
   tableName: 'role',
-  indexes: [{ fields: ['is_deleted', 'name'] }],
+  paranoid: true,
+  indexes: [{ fields: ['name'], where: { deleted_at: null } }],
 })
 export class Role extends Model<IModel, IModelCreate> implements IModel {
   @AllowNull(false)
   @Column
-  name: string;
-
-  @Default(false)
-  @Column
-  isDeleted: boolean;
+    name: string;
 }

@@ -23,14 +23,14 @@ export type IModelCreate = Omit<IModel, 'id'> & Partial<IModelOptional>;
 })
 export class RolePermission extends Model<IModel, IModelCreate> implements IModel {
   @BelongsTo(() => Permission)
-  permission_id: Permission;
+    permission_id: Permission;
 
   @ForeignKey(() => Permission)
-  permissionId: number;
+    permissionId: number;
 
   @BelongsTo(() => Role)
-  role: Role;
+    role: Role;
 
   @ForeignKey(() => Role)
-  roleId: number;
+    roleId: number;
 }

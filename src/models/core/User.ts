@@ -1,52 +1,57 @@
 import { Cache, Model } from 'base-repo';
-import { AllowNull, BelongsTo, BelongsToMany, Column, Default, ForeignKey, Table } from 'sequelize-typescript';
+import {
+  AllowNull, BelongsTo, BelongsToMany, Column, Default, ForeignKey, Table,
+} from 'sequelize-typescript';
+import { Attributes } from 'sequelize/types';
 import { IUnfilledAtt } from 'utils/base-class/base.interface';
 
 import { Role } from './Role';
 import { UserLogin } from './UserLogin';
 import { UserRole } from './UserRole';
 
-interface IModelOptional {
+interface IRelation {
+  roles: Attributes<Role>[]
+  userLogin: Attributes<UserLogin>
+}
+
+interface IModelOptional extends IUnfilledAtt, IRelation {
   id: number;
   phone: string;
 }
 
-interface IModel extends Partial<IUnfilledAtt>, Partial<IModelOptional> {
+interface IModel extends Partial<IModelOptional> {
   name: string;
   email: string;
   userLoginId: number;
 }
 
-export type IModelCreate = Omit<IModel, 'id'> & Partial<IModelOptional>;
+export type IModelCreate = Omit<IModel, 'id'>;
 
 @Cache()
 @Table({
   tableName: 'user',
-  indexes: [{ fields: ['is_deleted', 'email'] }],
+  paranoid: true,
+  indexes: [{ fields: ['email'] }],
 })
 export class User extends Model<IModel, IModelCreate> implements IModel {
   @BelongsTo(() => UserLogin)
-  userLogin: UserLogin;
+    userLogin: UserLogin;
 
   @ForeignKey(() => UserLogin)
-  userLoginId: number;
+    userLoginId: number;
 
   @AllowNull(false)
   @Column
-  name: string;
+    name: string;
 
   @AllowNull(false)
   @Column
-  email: string;
+    email: string;
 
   @AllowNull(true)
   @Column
-  phone: string;
-
-  @Default(false)
-  @Column
-  isDeleted: boolean;
+    phone: string;
 
   @BelongsToMany(() => Role, () => UserRole)
-  roles: Role[];
+    roles: Role[];
 }

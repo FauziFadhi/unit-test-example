@@ -23,14 +23,14 @@ export type IModelCreate = Omit<IModel, 'id'> & Partial<IModelOptional>;
 })
 export class UserRole extends Model<IModel, IModelCreate> implements IModel {
   @BelongsTo(() => User)
-  user: User;
+    user: User;
 
   @ForeignKey(() => User)
-  userId: number;
+    userId: number;
 
   @BelongsTo(() => Role)
-  role: Role;
+    role: Role;
 
   @ForeignKey(() => Role)
-  roleId: number;
+    roleId: number;
 }

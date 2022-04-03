@@ -17,18 +17,15 @@ export const up: Migration = async ({ context: queryInterface }) => {
       },
       created_at: DataType.DATE,
       updated_at: DataType.DATE,
-      is_deleted: {
-        type: DataType.BOOLEAN,
-        defaultValue: false,
-      },
+      deleted_at: DataType.DATE,
     });
 
-    await queryInterface.addIndex('role', ['is_deleted', 'name']);
+    await queryInterface.addIndex('role', ['name'], { where: { deleted_at: null } });
   });
 };
 export const down: Migration = async ({ context: queryInterface }) => {
   await queryInterface.sequelize.transaction(async (transaction) => {
-    await queryInterface.removeIndex('role', ['is_deleted', 'name']);
+    await queryInterface.removeIndex('role', ['name'], { where: { deleted_at: null } });
     await queryInterface.dropTable('role');
   });
 };

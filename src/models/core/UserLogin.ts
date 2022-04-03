@@ -1,27 +1,31 @@
 import { Cache, Model } from 'base-repo';
-import { AllowNull, Column, Default, HasOne, Scopes, Table } from 'sequelize-typescript';
+import {
+  AllowNull, Column, Default, HasOne, Scopes, Table,
+} from 'sequelize-typescript';
+import { Attributes } from 'sequelize/types';
 import { IUnfilledAtt } from 'utils/base-class/base.interface';
 
 import { User } from './User';
 
-interface IModelOptional {
+interface IRelation {
+  user: Attributes<User>
+}
+
+interface IModelOptional extends IUnfilledAtt, IRelation {
   id: number;
   isActive: boolean;
 }
 
-interface IModel extends Partial<IUnfilledAtt>, Partial<IModelOptional> {
+interface IModel extends Partial<IModelOptional> {
   username: string;
   password: string;
 }
 
-export interface IModelCreate extends Omit<IModel, 'id'>, Partial<IModelOptional> {
-  // user?: IModelCreateUser;
-}
+export type IModelCreate = Omit<IModel, 'id'>;
 
 @Scopes(() => ({
   active: ({
     where: {
-      isDeleted: false,
       isActive: true,
     },
   }),
@@ -29,27 +33,23 @@ export interface IModelCreate extends Omit<IModel, 'id'>, Partial<IModelOptional
 @Cache()
 @Table({
   tableName: 'user_login',
-  indexes: [{ fields: ['is_deleted', 'is_active', 'username'] }],
+  paranoid: true,
+  indexes: [{ fields: ['is_active', 'username'] }],
 })
 export class UserLogin
   extends Model<IModel, IModelCreate>
   implements IModel {
   @Column
-  username: string;
+    username: string;
 
   @Column
-  password: string;
-
-  @AllowNull(false)
-  @Default(false)
-  @Column
-  isActive: boolean;
+    password: string;
 
   @AllowNull(false)
   @Default(false)
   @Column
-  isDeleted: boolean;
+    isActive: boolean;
 
   @HasOne(() => User)
-  user: User;
+    user: User;
 }

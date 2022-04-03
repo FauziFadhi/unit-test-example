@@ -35,7 +35,7 @@ export class AuthJwtStrategy extends PassportStrategy(Strategy, 'auth') {
   async validate(payload: ILoginPayload): Promise<ILoggedUser> {
     const userLogin = await UserLogin.scopes('active')
       .findOneCache({
-        ttl: 1000,
+        ttl: 300,
         attributes: ['id', 'username'],
         where: {
           username: payload.username,
@@ -63,11 +63,8 @@ export class AuthJwtStrategy extends PassportStrategy(Strategy, 'auth') {
 
     const permissions: { id?: number, name: string, key: string }[] = await Permission
       .findAllCache({
-        ttl: 2000,
+        ttl: 60 * 5,
         attributes: ['id', 'name', 'key'],
-        where: {
-          isDeleted: false,
-        },
         include: {
           association: 'roles',
           where: {

@@ -21,18 +21,15 @@ export const up: Migration = async ({ context: queryInterface }) => {
       },
       created_at: DataType.DATE,
       updated_at: DataType.DATE,
-      is_deleted: {
-        type: DataType.BOOLEAN,
-        defaultValue: false,
-      },
+      deleted_at: DataType.DATE,
     });
 
-    await queryInterface.addIndex('permission', ['is_deleted', 'key']);
+    await queryInterface.addIndex('permission', ['key'], { where: { deleted_at: null } });
   });
 };
 export const down: Migration = async ({ context: queryInterface }) => {
   await queryInterface.sequelize.transaction(async (transaction) => {
-    await queryInterface.removeIndex('permission', ['is_deleted', 'key']);
+    await queryInterface.removeIndex('permission', ['key'], { where: { deleted_at: null } });
     await queryInterface.dropTable('permission');
   });
 };

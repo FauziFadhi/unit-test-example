@@ -1,5 +1,9 @@
 export interface IUnfilledAtt {
   createdAt: Date;
   updatedAt: Date;
-  isDeleted: boolean;
+  deletedAt: Date;
+}
+export interface IUnfilledNotParanoidAtt {
+  createdAt: Date;
+  updatedAt: Date;
 }

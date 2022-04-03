@@ -21,10 +21,10 @@ import { UserViewModel } from '../viewmodel/user.viewmodel';
 export class UserController {
   @Get(':id')
   // @Permissions(PERMISSION.CAN_VIEW_USER)
-  @UseInterceptors(new ResponseInterceptor('users'))
+  @UseInterceptors(new ResponseInterceptor('user'))
   async getUser(
     @Param('id', ParseIntPipe) id: number,
-    @LoggedUser() loggedUser,
+      @LoggedUser() loggedUser,
   ): Promise<UserViewModel> {
     const user = await User.findOne();
 
