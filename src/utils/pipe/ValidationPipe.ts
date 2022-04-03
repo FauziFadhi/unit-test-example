@@ -8,7 +8,7 @@ import {
 
 import { plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
-import ErrorCode from '../ErrorCode';
+import { VALIDATION_CODE } from '../error';
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
@@ -33,7 +33,7 @@ export class ValidationPipe implements PipeTransform<any> {
       );
       throw new UnprocessableEntityException(
         flatten(mappedErrors),
-        ErrorCode.VALIDATION,
+        VALIDATION_CODE,
       );
     }
     return value;
