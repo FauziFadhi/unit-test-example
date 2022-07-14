@@ -13,6 +13,18 @@
 - Database Migration [Umzug](https://github.com/sequelize/umzug)
 - Validator [Class Validator](https://github.com/typestack/class-validator)
 
+# Basic Command
+basic command for run this project
+## Migration
+``` 
+npm run migrate <migration runner file> -- <umzug command> 
+```
+
+example create migration file: `npm run migrate core -- create --name=<filename>`
+
+`core` from this command is the runner file at root folder. the command after double dash `--` is pure command from umzug documentation. you can find others from documentation link above.
+
+---
 # How To Install
 
 
