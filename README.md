@@ -1,3 +1,6 @@
+## OS Plugin
+- [Node Version Manager](https://github.com/nvm-sh/nvm) this plugin used for managing your need in your OS.
+
 ## Editor Plugin (Please install these plugin)
 - [Eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 - [Editor Config](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
@@ -54,6 +57,9 @@ git pull https://fauzifadh@bitbucket.org/rollingglory/node-basecode.git master -
 - you can see example of implementation at `src/apps/example` folder
 
 ----
+<br/>
+<br/>
+<br/>
 
 # Http Request
 if your project need to request to 3rd Party API please install `@nestjs/axios` [Nestjs Axios](https://www.npmjs.com/package/@nestjs/axios)
@@ -69,10 +75,27 @@ instead of
 const resp = await this.httpService.post().toPromise()
 
 ```
+---
+
+<br/>
+<br/>
 
 # Custom Cache
 if you want to use custom cache with custom key, you can follow this [instruction](https://docs.nestjs.com/techniques/caching#interacting-with-the-cache-store)
-### Folder Structure
+
+----
+
+<br/>
+
+# Swagger
+- Install the dependencies `npm install --save @nestjs/swagger@5.x.x swagger-ui-express`
+- use file with these suffix [.viewmodel.ts, .transfomer.ts, .request.ts] the swagger will automatically tell the docs from those type file.
+- you can use `?` to make the attribute become optional, example `age?: number`. swagger will translate the `age` to its documentation become optional
+- you can see the setup config at `main.ts` file
+- you can open the docs at `localhost:3000/api/docs`, if the example value not appear, `you can delete the node_modules` -> `npm i` -> `npm run buid` -> `try to re run`
+<br/>
+
+# Folder Structure
 
  ```Incoming```
 

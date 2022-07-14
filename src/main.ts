@@ -1,7 +1,9 @@
+import { AppsModule } from '@apps/apps.module';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AllExceptionsFilter } from '@utils/all-exception-filter';
 import { install } from 'source-map-support';
 
@@ -19,6 +21,15 @@ async function bootstrap() {
   });
 
   app.setGlobalPrefix('api');
+
+  const config = new DocumentBuilder()
+    .setTitle('Apps')
+    .build();
+  const document = SwaggerModule.createDocument(app, config, {
+    include: [AppsModule],
+    deepScanRoutes: true,
+  });
+  SwaggerModule.setup('api/docs', app, document);
 
   app.enableCors({
     origin: '*',
