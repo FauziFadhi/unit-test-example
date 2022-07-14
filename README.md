@@ -1,8 +1,13 @@
-## Requirement
+## Editor Plugin (Please install these plugin)
+- [Eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Editor Config](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
+
+
+## Dependencies Documentation (Please read these dependencies docs)
 - NodeJs >= 16 LTS 
-- [Typescript 4.5](https://www.typescriptlang.org/docs/)
+- [Typescript 4.7](https://www.typescriptlang.org/docs/)
 - NestJs [V8](https://nestjs.com/)
-- ORM [Sequelize-Typescript v2.1.2](https://www.npmjs.com/package/sequelize-typescript)
+- ORM [Sequelize-Typescript v2.1.3](https://www.npmjs.com/package/sequelize-typescript)
 - Cache Management [base-repo](https://github.com/FauziFadhi/base-repo) (extending sequelize function with cache feature)
 - Base ORM [Sequelize v6](https://sequelize.org/master/)
 - Database Migration [Umzug](https://github.com/sequelize/umzug)
