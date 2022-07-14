@@ -4,7 +4,7 @@ import * as path from 'path';
 
 const env = dotenv.parse(fs.readFileSync('.env'));
 export default {
-  dialect: 'mysql',
+  dialect: env.DB_CONNECTION,
   logging: (log: any): void => {
     console.log('\x1b[33m', log, '\x1b[0m', '\n');
   },
