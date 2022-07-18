@@ -2,8 +2,9 @@ import {
   CACHE_MANAGER, CacheModule, Inject, Module,
 } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { RepositoryModule } from 'base-repo';
+import { SequelizeCacheModule } from 'base-repo';
 import { Store } from 'cache-manager';
+import { CacheService } from './cache.service';
 
 import config from './config';
 import { CacheConfigProvider } from './config.provider';
@@ -19,7 +20,7 @@ import schema from './schema';
     CacheModule.registerAsync({
       useClass: CacheConfigProvider,
     }),
-    RepositoryModule.forRoot({
+    SequelizeCacheModule.register({
       defaultTTL: 5, // DEFINE TTL FOR ALL PROJECT seconds
       // DEFINE HOW TO GET CACHE FROM GIVEN KEY
       callbackGet: async ({ key }) => CacheConfigModule.store.get(key),
@@ -30,7 +31,8 @@ import schema from './schema';
       callbackGetKey: async ({ keyPattern }) => CacheConfigModule.store.keys?.(`${process.env.CACHE_PREFIX}${keyPattern}`) || [],
     }),
   ],
-  exports: [CacheModule],
+  providers: [CacheService],
+  exports: [CacheModule, CacheService],
 })
 export class CacheConfigModule {
   static store: Store;
