@@ -22,13 +22,16 @@ export const up: Migration = async ({ context: queryInterface }) => {
         type: DataType.STRING,
         allowNull: false,
       },
+      code: {
+        type: DataType.STRING,
+        allowNull: false,
+      },
       email: {
         type: DataType.STRING,
         allowNull: false,
       },
       phone: {
         type: DataType.STRING,
-        allowNull: true,
       },
       created_at: DataType.DATE,
       updated_at: DataType.DATE,

@@ -1,5 +1,4 @@
 import { AuthConfigService } from '@config/auth/config.provider';
-import { Permission } from '@models/core/Permission';
 import { UserLogin } from '@models/core/UserLogin';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -59,26 +58,10 @@ export class AuthJwtStrategy extends PassportStrategy(Strategy, 'auth') {
           ],
         },
       });
-    const rolesIds = userLogin.user.roles.map(({ id }) => id);
-
-    const permissions: { id?: number, name: string, key: string }[] = await Permission
-      .findAllCache({
-        ttl: 60 * 5,
-        attributes: ['id', 'name', 'key'],
-        include: {
-          association: 'roles',
-          where: {
-            id: {
-              [Op.in]: rolesIds,
-            },
-          },
-        },
-        group: ['id'],
-      });
 
     return {
       userLoginId: userLogin.id,
-      permissions: permissions.map(({ key }) => key),
+      permissions: [],
       roles: userLogin.user.roles.map(({ name }) => name),
       userId: userLogin.user.id,
       username: userLogin.username,

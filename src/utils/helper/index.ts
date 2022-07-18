@@ -1,7 +1,6 @@
 import { ClassTransformOptions, plainToInstance } from 'class-transformer';
 
-export const circularToJSON = (circular: unknown) =>
-  JSON.parse(JSON.stringify(circular));
+export const circularToJSON = (circular: unknown) => JSON.parse(JSON.stringify(circular));
 
 export function transformer<T, V>(
   cls: { new (...args: unknown[]): T },
@@ -18,7 +17,7 @@ export function transformer(...args: any[]) {
     excludeExtraneousValues: true,
     exposeUnsetFields: true,
     enableImplicitConversion: true,
-    exposeDefaultValues: true,
+    // exposeDefaultValues: true,
     ...args[2],
   });
   return result as unknown;

@@ -1,8 +1,11 @@
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { AppsModule } from '@apps/apps.module';
+import { VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AllExceptionsFilter } from '@utils/all-exception-filter';
+import { ValidationPipe } from '@utils/pipe/ValidationPipe';
 import { install } from 'source-map-support';
 
 import { AppModule } from './app.module';
@@ -19,6 +22,15 @@ async function bootstrap() {
   });
 
   app.setGlobalPrefix('api');
+
+  const config = new DocumentBuilder()
+    .setTitle('Apps')
+    .build();
+  const document = SwaggerModule.createDocument(app, config, {
+    include: [AppsModule],
+    deepScanRoutes: true,
+  });
+  SwaggerModule.setup('api/docs', app, document);
 
   app.enableCors({
     origin: '*',
