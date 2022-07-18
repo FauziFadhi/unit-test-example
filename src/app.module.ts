@@ -15,7 +15,6 @@ import { CmsModule } from './modules/cms/cms.module';
     AppsModule,
     CmsModule,
     CommonModule,
-    ExampleModule,
     ...CONFIG_MODULES,
   ],
   controllers: [AppController],

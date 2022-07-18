@@ -1,10 +1,11 @@
 import { AppsModule } from '@apps/apps.module';
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AllExceptionsFilter } from '@utils/all-exception-filter';
+import { ValidationPipe } from '@utils/pipe/ValidationPipe';
 import { install } from 'source-map-support';
 
 import { AppModule } from './app.module';

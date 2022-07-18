@@ -17,7 +17,7 @@ export function transformer(...args: any[]) {
     excludeExtraneousValues: true,
     exposeUnsetFields: true,
     enableImplicitConversion: true,
-    exposeDefaultValues: true,
+    // exposeDefaultValues: true,
     ...args[2],
   });
   return result as unknown;

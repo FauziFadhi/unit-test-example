@@ -28,11 +28,12 @@ export const up: Migration = async ({ context: queryInterface }) => {
       deleted_at: DataType.DATE,
     });
 
-    await queryInterface.addIndex('user_login', ['is_active', 'username']);
+    await queryInterface.addIndex('user_login', ['is_active', 'username'], { where: { deleted_at: null } });
   });
 };
 export const down: Migration = async ({ context: queryInterface }) => {
   await queryInterface.sequelize.transaction(async (transaction) => {
+    await queryInterface.removeIndex('user_login', ['is_active', 'username'], { where: { deleted_at: null } });
     await queryInterface.dropTable('user_login');
   });
 };

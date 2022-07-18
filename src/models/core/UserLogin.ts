@@ -3,7 +3,7 @@ import {
   AllowNull, Column, Default, HasOne, Scopes, Table,
 } from 'sequelize-typescript';
 import { Attributes } from 'sequelize/types';
-import { IUnfilledAtt } from 'utils/base-class/base.interface';
+import { IUnfilledAtt, Optional } from 'utils/base-class/base.interface';
 
 import { User } from './User';
 
@@ -11,17 +11,16 @@ interface IRelation {
   user: Attributes<User>
 }
 
-interface IModelOptional extends IUnfilledAtt, IRelation {
+type INullableModel = IUnfilledAtt;
+
+export interface IModel extends Optional<INullableModel>, Partial<IRelation> {
   id: number;
+  username: string;
+  password: string;
   isActive: boolean;
 }
 
-interface IModel extends Partial<IModelOptional> {
-  username: string;
-  password: string;
-}
-
-export type IModelCreate = Omit<IModel, 'id'>;
+export type IModelCreate = Omit<IModel, 'id' | 'isActive'>;
 
 @Scopes(() => ({
   active: ({
@@ -34,18 +33,21 @@ export type IModelCreate = Omit<IModel, 'id'>;
 @Table({
   tableName: 'user_login',
   paranoid: true,
-  indexes: [{ fields: ['is_active', 'username'] }],
+  indexes: [{ fields: ['is_active', 'username'], where: { is_deleted: false } }],
 })
 export class UserLogin
   extends Model<IModel, IModelCreate>
   implements IModel {
+  id: number;
+
+  @AllowNull(false)
   @Column
     username: string;
 
+  @AllowNull(false)
   @Column
     password: string;
 
-  @AllowNull(false)
   @Default(false)
   @Column
     isActive: boolean;

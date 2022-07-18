@@ -1,10 +1,11 @@
-import { PermissionGuard } from '@_common/auth/guard/permissions.guard';
 import { User } from '@models/core/User';
 import {
+  Body,
   Controller,
   Get,
   Param,
   ParseIntPipe,
+  Post,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -13,21 +14,38 @@ import { User as LoggedUser } from '@utils/decorators';
 import { transformer } from '@utils/helper';
 import { ResponseInterceptor } from '@utils/interceptors';
 
-import { UserViewModel } from '../viewmodel/user.viewmodel';
+import { ILoggedUser } from '@apps/auth/interface/logged-user.interface';
+import { ApiTags } from '@nestjs/swagger';
+import { UserVm } from './viewmodel/user.viewmodel';
+import { UserService } from '../service/user.service';
+import { CreateUserReq } from './request/create-user.request';
 
-@UseGuards(AuthGuard(['anonym', 'auth']), PermissionGuard)
-// @Permissions(PERMISSION.CAN_ADD_USER)
-@Controller({ version: '1', path: 'user' })
+@UseGuards(AuthGuard(['anonym', 'auth']))
+@Controller({ version: '1', path: 'users' })
+@ApiTags('Users')
 export class UserController {
+  constructor(
+    private readonly userService: UserService,
+  ) {
+
+  }
+
   @Get(':id')
-  // @Permissions(PERMISSION.CAN_VIEW_USER)
   @UseInterceptors(new ResponseInterceptor('user'))
   async getUser(
     @Param('id', ParseIntPipe) id: number,
-      @LoggedUser() loggedUser,
-  ): Promise<UserViewModel> {
-    const user = await User.findOne();
+      @LoggedUser() loggedUser?: ILoggedUser,
+  ): Promise<UserVm> {
+    const user = await this.userService.getUser(id);
 
-    return transformer(UserViewModel, user);
+    return transformer(UserVm, user);
+  }
+
+  @Post()
+  @UseInterceptors(new ResponseInterceptor('user'))
+  async createUser(@Body() body: CreateUserReq) {
+    const user = await this.userService.createUser(body);
+
+    return transformer(UserVm, user);
   }
 }
