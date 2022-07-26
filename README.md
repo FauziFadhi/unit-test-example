@@ -75,6 +75,12 @@ instead of
 const resp = await this.httpService.post().toPromise()
 
 ```
+
+## Http Request with Circuit Breaker
+
+
+Or you can use HttpRequest with circuit Breaker if you install this package [Circuit Breaker](https://github.com/FauziFadhi/rgb-safe-request). this package can handle http request with axios inside it and handling circuit breaker for case give `target` to recover first.
+
 ---
 
 <br/>

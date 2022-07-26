@@ -20,7 +20,7 @@ import { UserVm } from './viewmodel/user.viewmodel';
 import { UserService } from '../service/user.service';
 import { CreateUserReq } from './request/create-user.request';
 
-@UseGuards(AuthGuard(['anonym', 'auth']))
+@UseGuards(AuthGuard(['auth', 'anonym']))
 @Controller({ version: '1', path: 'users' })
 @ApiTags('Users')
 export class UserController {
@@ -34,7 +34,7 @@ export class UserController {
   @UseInterceptors(new ResponseInterceptor('user'))
   async getUser(
     @Param('id', ParseIntPipe) id: number,
-      @LoggedUser() loggedUser?: ILoggedUser,
+      @LoggedUser() loggedUser: ILoggedUser,
   ): Promise<UserVm> {
     const user = await this.userService.getUser(id);
 

@@ -22,7 +22,7 @@ export class ValidationPipe implements PipeTransform<any> {
       const mappedErrors = await Promise.all(
         errors.map(async (error) => {
           if (error?.children?.length === 0 && error?.constraints) {
-            return Object.values(error?.constraints);
+            return this.transformError(error);
           }
 
           if (error?.children?.[0]) {
@@ -45,9 +45,17 @@ export class ValidationPipe implements PipeTransform<any> {
   }
 
   private getChildrenConstraint(children: any) {
-    if (children.constraints) return Object.values(children.constraints);
+    if (children.constraints) return this.transformError(children);
 
     const grandChildren = children.children[0];
     return this.getChildrenConstraint(grandChildren);
+  }
+
+  private transformError(error) {
+    const messages = Object.values(error.constraints);
+    return messages.map((message) => ({
+      field: error.property,
+      message,
+    }));
   }
 }

@@ -1,4 +1,8 @@
 /* eslint-disable import/export */
-export * from './auth.error-message';
+import * as auth from './auth.error-message';
+
+export const ERR_MSG = {
+  auth,
+};
 
 export const VALIDATION_CODE = 'V01';
