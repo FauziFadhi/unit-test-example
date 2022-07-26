@@ -25,11 +25,12 @@ export class UserVm {
   @Expose()
     code: string;
 
+  /** @example fauzifadhi@gmail.com */
   @Expose()
     email: string;
 
   @Expose()
-    gender?: EGender = EGender.male;
+    gender: EGender = EGender.male;
 
   @Transform(({ obj }) => `${obj.name}+${obj.id}`)
   @Expose()
