@@ -44,7 +44,6 @@
     "joi": "^17.6.0",
     "json-api-serializer": "^2.6.6",
     "luxon": "^3.0.1",
-    "mysql2": "^2.3.3",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
