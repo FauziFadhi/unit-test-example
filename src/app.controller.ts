@@ -1,13 +1,21 @@
-import { Controller, Get } from '@nestjs/common';
+import {
+  Body, Controller,
+  Post, UploadedFile, UseGuards, UseInterceptors,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express';
 
-import { AppService } from './app.service';
-
-@Controller()
+@UseGuards(AuthGuard(['cms-auth']))
+@Controller({
+  path: 'cms/part-msrp',
+})
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Post('import')
+  @UseInterceptors(FileInterceptor('file'))
+  async impot(
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<any> {
+    console.log(file);
   }
 }
