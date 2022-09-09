@@ -4,8 +4,8 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AllExceptionsFilter } from '@utils/all-exception-filter';
-import { ValidationPipe } from '@utils/pipe/ValidationPipe';
+import { AllExceptionsFilter } from '@utils/exception/all-exception-filter';
+import { CustomValidationPipe } from '@utils/pipe/ValidationPipe';
 import { install } from 'source-map-support';
 
 import { AppModule } from './app.module';
@@ -14,7 +14,14 @@ async function bootstrap() {
   install();
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new CustomValidationPipe({
+    whitelist: true,
+    transform: true,
+    stopAtFirstError: true,
+    transformOptions: {
+      enableImplicitConversion: true,
+    },
+  }));
   app.useGlobalFilters(new AllExceptionsFilter());
 
   app.enableVersioning({

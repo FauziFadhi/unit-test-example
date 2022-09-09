@@ -1,8 +1,9 @@
 import {
   ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus,
 } from '@nestjs/common';
+import { Request, Response } from 'express';
 import * as JSONAPISerializer from 'json-api-serializer';
-import { VALIDATION_CODE } from './error';
+import { VALIDATION_CODE } from '../error';
 
 // tslint:disable-next-line:variable-name
 const Serializer = new JSONAPISerializer();
@@ -11,9 +12,9 @@ const Serializer = new JSONAPISerializer();
 export class AllExceptionsFilter implements ExceptionFilter {
   catch(exception: HttpException | any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const response = ctx.getResponse();
+    const response: Response = ctx.getResponse();
 
-    const request = ctx.getRequest();
+    const request: Request = ctx.getRequest();
 
     // const isAcceptedApi = request.url.includes('api/');
 
@@ -36,6 +37,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     const meta = {
       path: url,
+      method: request.method,
       timestamp: new Date().toISOString(),
     };
 
@@ -83,6 +85,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
     // );
 
     response.status(status).json(Serializer.serializeError(errorDefault));
+  }
+
+  private httpExceptionHandling(exception: HttpException) {
+
   }
 
   private getStatus(exception: HttpException | any) {
