@@ -104,7 +104,7 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "**/modules/apps/voucher/**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
@@ -113,7 +113,9 @@
       "^@_common/(.*)$": "<rootDir>/modules/_common/$1",
       "^@cms/(.*)$": "<rootDir>/modules/cms/$1",
       "^@models/(.*)$": "<rootDir>/models/$1",
-      "^@utils/(.*)$": "<rootDir>/utils/$1"
+      "^@utils/(.*)$": "<rootDir>/utils/$1",
+      "^@config/(.*)$": "<rootDir>/config/$1"
+
     }
   }
 }

@@ -11,7 +11,7 @@
     "tsconfigRootDir": "./"
   },
   "plugins": [
-    "@typescript-eslint/eslint-plugin" 
+    "@typescript-eslint/eslint-plugin"
     // "import"
   ],
   "extends": [
@@ -29,6 +29,7 @@
   "ignorePatterns": [".eslintrc"],
   "rules": {
     "import/prefer-default-export": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "max-len": [120]
   }
 }
